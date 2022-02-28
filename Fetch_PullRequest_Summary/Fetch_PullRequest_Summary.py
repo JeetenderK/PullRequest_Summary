@@ -8,7 +8,7 @@ import logging
 
 def Fetch_Pullrequest_Summary(username, reponame):
 		now = datetime.now().strftime('%Y-%m-%d')
-		date_lastweek = datetime.now() - timedelta(days=60)
+		date_lastweek = datetime.now() - timedelta(days=7)
 
 		lastweek = date_lastweek.strftime('%Y-%m-%d')
 		root_url = "https://api.github.com/repos/%s/%s/pulls?state=all" % (username,reponame)
