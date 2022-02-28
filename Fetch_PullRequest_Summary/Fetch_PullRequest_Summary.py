@@ -53,7 +53,7 @@ def Fetch_Pullrequest_Summary(username, reponame):
 						
 						state = Pull_req["state"]
 
-						if Pull_req["draft"] == 'true':
+						if Pull_req["draft"] == True:
 							draft += 1
 							state = "draft"
 						elif Pull_req["merged_at"] != None:
