@@ -1,4 +1,3 @@
-
 import requests
 import json
 from datetime import datetime
@@ -12,7 +11,7 @@ def Fetch_Pullrequest_Summary(username, reponame):
 		date_lastweek = datetime.now() - timedelta(days=60)
 
 		lastweek = date_lastweek.strftime('%Y-%m-%d')
-		root_url = "https://api.github.com/repos/%s/%s/pulls1?state=all" % (username,reponame)
+		root_url = "https://api.github.com/repos/%s/%s/pulls?state=all" % (username,reponame)
 
 		headers = {
 			"Content-Type":"application/json",
@@ -81,7 +80,6 @@ def Fetch_Pullrequest_Summary(username, reponame):
 						obj["Comment"] = Pull_req["body"]
 						obj["Commits url"] = Pull_req["commits_url"]
 						
-
 						details.append(obj)
 				else:
 					logging.info("Error fetching request details. Status code - %s", resp.status_code)
@@ -99,7 +97,7 @@ def Fetch_Pullrequest_Summary(username, reponame):
 		details_page = details_page +"q=is%3Apr+state%3Aall+created%3A%3E%3D" + lastweek
 		
 		df = pd.DataFrame(details)
-		output_file = output_folder + "Output.xlsx"
+		
 		
 		logging.info("Writing to Attachment file - %s", output_file)
 		df.to_excel(output_file,index=False)
@@ -148,18 +146,21 @@ if __name__ == '__main__':
 
 	log_folder = parent_path + PathSlash + 'logs' + PathSlash
 	output_folder = parent_path + PathSlash + 'output' + PathSlash
-
+	
 	if not os.path.exists(log_folder):
 		os.makedirs(log_folder)
 	if not os.path.exists(output_folder):
 		os.makedirs(output_folder)
 	
 	log_file = log_folder + 'Log_' + datetime.now().strftime("%Y-%m-%d") + '.log'
+	output_file = output_folder + 'Output_' + datetime.now().strftime("%Y-%m-%d") + '.xlsx'
+	
 	logging.basicConfig(filename=log_file,format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S',level=logging.INFO)
 	#logging.basicConfig(filename=log_file, format='%s(asctime)s - %(message)s', level=logging.INFO)
 	logging.info("---- Starting Script ----")
-	username='JeetenderK'
-	reponame='TomcatSample'
+	
+	#username='JeetenderK'
+	#reponame='TomcatSample'
 
 	username='AppFlowy-IO'
 	reponame='AppFlowy'
